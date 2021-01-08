@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  name: Volume Action
+  vars:
+    username: admin
+    password: Netapp123456
+    aggr: aggr1
+  vars_prompt:
+  - name: hostname
+    prompt: "What is the cluster admin IP of your CVO?"
+    private: no
+  - name: vserver
+    prompt: "What is the vserver name of your CVO?"
+    private: no
+  - name: vol_name
+    prompt: "What is the volume you want to delete?"
+    private: no  
+  tasks:
+  - name: Volume Delete
+    na_ontap_volume:
+      state: absent
+      name: "{{ vol_name }}"
+      vserver: "{{ vserver }}"
+      aggregate_name: "{{ aggr }}"
+      size: 10
+      size_unit: gb
+      policy: default
+      junction_path: "/{{ vol_name }}"
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false

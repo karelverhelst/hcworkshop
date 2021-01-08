@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  vars:
+    username: admin
+    password: Netapp123456
+    aggr: aggr1
+    export_policy: default
+  vars_prompt:
+  - name: hostname
+    prompt: "What is the cluster admin IP of your CVO?"
+    private: no
+  - name: vserver
+    prompt: "What is the vserver name of your CVO?"
+    private: no
+  - name: vol_name
+    prompt: "What is the volume you want to mount?"
+    private: no
+  - name: nfs_lif
+    prompt: "What is the IP of the NFS lif of your CVO?"
+    private: no
+  tasks:
+    - name: Create a directory
+      file:
+        path: "/mnt/{{ vol_name }}"
+        state: directory
+      delegate_to: localhost
+    - name: mount
+      mount:
+        name: "/mnt/{{ vol_name }}"
+        src: "{{ nfs_lif }}:/{{ vol_name }}"
+        fstype: nfs
+        state: mounted

@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  vars:
+    username: admin
+    password: Netapp123456
+    aggr: aggr1
+    export_policy: default
+  vars_prompt:
+  - name: vol_name
+    prompt: "What is the volume you want to unmount?"
+    private: no
+  tasks:
+    - name: mount
+      mount:
+        name: "/mnt/{{ vol_name }}"
+        fstype: nfs
+        state: unmounted

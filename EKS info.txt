@@ -1,0 +1,20 @@
+
+	  
+	  
+eksctl create cluster \
+--name cluster4 \
+--version 1.18 \
+--region eu-central-1 \
+--nodegroup-name workers \
+--nodes 1 \
+--nodes-min 1 \
+--nodes-max 2 \
+--with-oidc \
+--ssh-access \
+--ssh-public-key id_rsa \
+--managed \
+--node-type t2.medium \
+--vpc-private-subnets subnet-03xx3ccdb7d988820,subnet-061f543364afc45bc \
+--vpc-public-subnets subnet-03pp3f0db7d988820,subnet-061f555264afc45bc
+
+

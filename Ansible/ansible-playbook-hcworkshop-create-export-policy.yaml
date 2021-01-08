@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  name: create export policy called Trident
+  vars:
+    username: admin
+    password: Netapp123456
+    export_policy: trident
+  vars_prompt:
+    - name: hostname
+      prompt: "What is the cluster admin IP of your CVO?"
+      private: no
+    - name: vserver
+      prompt: "What is the vserver name of your CVO?"
+      private: no
+  tasks:
+  - name: Create ExportPolicyRule
+    na_ontap_export_policy_rule:
+      state: present
+      name: "{{ export_policy }}"
+      client_match: 10.0.0.0/8
+      ro_rule: any
+      rw_rule: any
+      protocol: any
+      super_user_security: any
+      allow_suid: true
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vserver: "{{ vserver }}"
+      https: true
+      validate_certs: false
